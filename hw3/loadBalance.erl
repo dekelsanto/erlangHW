@@ -2,6 +2,7 @@
 -behaviour(supervisor).
 
 -export([init/1, startServers/0, stopServers/0]).
+-export([numberOfRunningFunctions/1]).
 init([]) -> 
     Server1 = {server1, {serverInstance, start_link, [server1]},
         permanent, 2000, worker, []},
@@ -17,3 +18,11 @@ startServers() ->
 
 stopServers() ->
     exit(whereis(?MODULE), normal).
+
+numberOfRunningFunctions(Id) ->
+    ServerName = case Id of 
+        1 -> server1;
+        2 -> server2;
+        3 -> server3
+    end, 
+    gen_server:call(ServerName, {count}).

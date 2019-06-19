@@ -19,6 +19,9 @@ init(Name) ->
 handle_call(stop, _From, State) ->
    {stop, normal, stopped, State};
 
+handle_call({count}, _From, State) ->
+    {reply, State#state.functionCount, State};
+
 handle_call(_Request, _From, State) ->
     {reply, ok, State}.
 
@@ -34,6 +37,8 @@ terminate(_Reason, _State) ->
 code_change(_OldVsn, State, _Extra) ->
    {ok, State}.
 
+
+% worker(Pid, )
 
 
 
