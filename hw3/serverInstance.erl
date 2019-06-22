@@ -14,7 +14,6 @@ start_link(Name) ->
    gen_server:start_link({local, Name}, ?MODULE, [Name], []).
 
 init([Name]) ->
-    io:format("~p starting~n", [Name]),
    {ok, #state{name=Name, functionCount=0}}.
 
 handle_call(stop, _From, State) ->

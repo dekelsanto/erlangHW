@@ -1,8 +1,10 @@
 -module(loadBalance).
 -behaviour(supervisor).
 
--export([init/1, startServers/0, stopServers/0]).
+-export([init/1]).
+-export([startServers/0, stopServers/0]).
 -export([numberOfRunningFunctions/1, calcFun/3]).
+
 init([]) -> 
     Server1 = {server1, {serverInstance, start_link, [server1]},
         permanent, 2000, worker, []},
@@ -10,7 +12,7 @@ init([]) ->
         permanent, 2000, worker, []},
     Server3 = {server3, {serverInstance, start_link, [server3]},
         permanent, 2000, worker, []},
-    {ok, {{rest_for_one, 1, 1}, [Server1, Server2, Server3]}}.
+    {ok, {{one_for_one, 10, 1}, [Server1, Server2, Server3]}}.
 
 startServers() ->
     make:all([load]),
